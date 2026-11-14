@@ -52,6 +52,18 @@ test-results/
 *.sqlite3
 
 # Temporary AI artifacts
-ai-*.txt
+# Claude
 .claude/
+
+# Supabase temporary files
 supabase/.temp/
+
+# Local agent tooling
+.agents/
+.kilo/
+
+# Investigation files
+staged-files.txt
+
+# AI-generated inventories
+ai-*.txt
