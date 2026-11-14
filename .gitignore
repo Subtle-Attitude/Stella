@@ -53,3 +53,5 @@ test-results/
 
 # Temporary AI artifacts
 ai-*.txt
+.claude/
+supabase/.temp/
