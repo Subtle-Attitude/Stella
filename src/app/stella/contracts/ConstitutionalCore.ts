@@ -1,0 +1,1 @@
+export interface ConstitutionalCore {   readonly id: string;   readonly version: string;   readonly principles: readonly string[];   readonly lastAuthorizedAt: Date;   readonly authorizedByUserId: string;   readonly signature: string;   readonly createdAt: Date; }

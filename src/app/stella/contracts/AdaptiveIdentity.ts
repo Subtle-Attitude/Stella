@@ -1,0 +1,1 @@
+export interface AdaptiveIdentity {   readonly id: string;   readonly userId: string;   communicationPreferences: Record<string, unknown>;   reasoningPreferences: Record<string, unknown>;   learnedCorrections: Array<{     correction: string;     authorizedAt: Date;     signature: string;   }>;   lastUpdatedAt: Date; }

@@ -1,0 +1,1 @@
+export interface StellaIntent {   readonly id: string;   readonly userId: string;   readonly modality: 'voice' | 'journal' | 'chat';   readonly rawContent: string;   readonly metadata: Record<string, unknown>;   readonly requestedAction: 'read' | 'write' | 'delete' | 'query'; }

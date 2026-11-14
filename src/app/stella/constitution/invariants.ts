@@ -1,0 +1,1 @@
+export const ConstitutionalInvariants = {   constitutionImmutable: true,   interpretationsCannotBecomeCanon: true,   sovereigntyCannotBeBypassed: true,   provenanceRequired: true,   userCanonRequiresExplicitConfirmation: true,   hardDeleteMustBeComplete: true, } as const;

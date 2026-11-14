@@ -1,0 +1,1 @@
+export interface AuditRecord {   readonly id: string;   readonly userId: string;   readonly action: string;   readonly entityType: string;   readonly entityId: string;   readonly before?: unknown;   readonly after?: unknown;   readonly performedBy: 'user' | 'stella' | 'system';   readonly timestamp: Date;   readonly signature: string; }
