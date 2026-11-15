@@ -1,0 +1,7 @@
+export interface UserProfile {
+  userId: string;
+
+  displayName: string;
+
+  communityIdentity: string;
+}
