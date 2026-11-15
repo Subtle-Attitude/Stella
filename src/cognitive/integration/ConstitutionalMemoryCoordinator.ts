@@ -1,16 +1,26 @@
 // src/cognitive/integration/ConstitutionalMemoryCoordinator.ts
 import type { MemoryRecord } from "../../app/stella/contracts/MemoryRecord";
 import { ConstitutionalRuntimeAdapter } from "../../stella/runtime/ConstitutionalRuntimeAdapter";
+import { AuthorityAwareMemoryRetrievalPolicy } from "../../stella/memory/AuthorityAwareMemoryRetrievalPolicy";
+import { AuthorityAwareMemoryRankingService } from "../../stella/memory/AuthorityAwareMemoryRankingService";
 
 export class ConstitutionalMemoryCoordinator {
   private readonly memoryBuffer: MemoryRecord[] = [];
+  private readonly retrievalPolicy = new AuthorityAwareMemoryRetrievalPolicy();
+  private readonly rankingService = new AuthorityAwareMemoryRankingService();
 
   constructor(
     private readonly runtime = new ConstitutionalRuntimeAdapter()
   ) {}
 
   async retrieve(sessionId: string): Promise<MemoryRecord[]> {
-    return this.runtime.retrieveMemoryForReasoning(this.memoryBuffer);
+    // Sprint 9:
+    // retrieval currently operates on constitutional memory.
+    // session-aware partitioning will be introduced later.
+    const eligible = this.memoryBuffer.filter((record) =>
+      this.retrievalPolicy.isEligibleForReasoning(record)
+    );
+    return this.rankingService.rank(eligible);
   }
 
   async record(
