@@ -1,0 +1,16 @@
+[
+  {
+    "id": "symbols",
+    "domainId": "dreamWeaver",
+    "name": "Symbols",
+    "description": "Recurring images, objects, or motifs appearing in dreams or waking life.",
+    "relatedThemes": ["recurrence", "meaning", "personal-mythology"]
+  },
+  {
+    "id": "dreams",
+    "domainId": "dreamWeaver",
+    "name": "Dreams",
+    "description": "Nighttime narratives and their felt sense.",
+    "relatedThemes": ["subconscious", "emotion", "narrative"]
+  }
+]

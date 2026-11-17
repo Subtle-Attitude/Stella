@@ -1,0 +1,24 @@
+[
+  {
+    "id": "dw-wonder-symbols-01",
+    "domainId": "dreamWeaver",
+    "pillarId": "wonder",
+    "topicId": "symbols",
+    "prompt": "What symbol has been appearing lately, and what happens if you simply notice it without deciding what it means?",
+    "followUps": [
+      "Where else has this symbol shown up?",
+      "What feeling arrives with it?"
+    ]
+  },
+  {
+    "id": "ya-orientation-identity-01",
+    "domainId": "yourAtlas",
+    "pillarId": "orientation",
+    "topicId": "identity",
+    "prompt": "If you described your current coordinates in one sentence, what would it be?",
+    "followUps": [
+      "What feels steady right now?",
+      "What feels in motion?"
+    ]
+  }
+]

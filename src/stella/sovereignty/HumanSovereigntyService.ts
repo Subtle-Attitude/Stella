@@ -1,6 +1,6 @@
+// src/stella/sovereignty/HumanSovereigntyService.ts
 import type { MemoryRecord } from "../../app/stella/contracts/MemoryRecord";
 import type { GovernanceContext } from "../../app/stella/contracts/GovernanceContext";
-
 import { MemoryRepository } from "../repositories/MemoryRepository";
 import { AuditService } from "../services/AuditService";
 import { GovernanceEngine } from "../governance/GovernanceEngine";
@@ -12,23 +12,14 @@ export class HumanSovereigntyService {
     private readonly governance = new GovernanceEngine()
   ) {}
 
-  async challengeInterpretation(
-    record: MemoryRecord
-  ): Promise<MemoryRecord> {
+  async challengeInterpretation(record: MemoryRecord): Promise<MemoryRecord> {
     if (record.provenance !== "ai_interpretation") {
-      throw new Error(
-        "Only AI interpretations may be challenged"
-      );
+      throw new Error("Only AI interpretations may be challenged");
     }
 
-    const challenged: MemoryRecord = {
-      ...record,
-      metadata: {
-        ...record.metadata,
-        challenged: true,
-      },
-      lastModifiedAt: new Date(),
-    };
+    const challenged = await this.repository.update(record, {
+      metadata: { ...record.metadata, challenged: true },
+    });
 
     this.audit.appendAuditEntry(
       this.audit.createAuditRecord({
@@ -49,11 +40,9 @@ export class HumanSovereigntyService {
     existing: MemoryRecord,
     correctedContent: string
   ): Promise<MemoryRecord> {
-    const corrected: MemoryRecord = {
-      ...existing,
+    const corrected = await this.repository.update(existing, {
       content: correctedContent,
-      lastModifiedAt: new Date(),
-    };
+    });
 
     this.audit.appendAuditEntry(
       this.audit.createAuditRecord({
@@ -70,27 +59,15 @@ export class HumanSovereigntyService {
     return corrected;
   }
 
-  async requestCanonRevision(
-    record: MemoryRecord
-  ): Promise<void> {
+  async requestCanonRevision(record: MemoryRecord): Promise<void> {
     if (record.type !== "user_canon") {
-      throw new Error(
-        "Only user_canon records may be revised"
-      );
+      throw new Error("Only user_canon records may be revised");
     }
 
-    const context: GovernanceContext = {
-      operation: "update",
-      record,
-    };
-
-    const decision =
-      await this.governance.evaluate(context);
-
+    const context: GovernanceContext = { operation: "update", record };
+    const decision = await this.governance.evaluate(context);
     if (!decision.approved) {
-      throw new Error(
-        `Governance blocked canon revision: ${decision.violations.join(", ")}`
-      );
+      throw new Error(`Governance blocked canon revision: ${decision.violations.join(", ")}`);
     }
 
     this.audit.appendAuditEntry(
@@ -106,41 +83,24 @@ export class HumanSovereigntyService {
     );
   }
 
-  async requestMemoryDeletion(
-    record: MemoryRecord
-  ): Promise<void> {
+  async requestMemoryDeletion(record: MemoryRecord): Promise<void> {
     await this.repository.hardDelete(record);
   }
 
-  canRetainMemory(
-    record: MemoryRecord
-  ): boolean {
+  canRetainMemory(record: MemoryRecord): boolean {
     return !record.isSoftDeleted;
   }
 
-  canUseMemoryForReasoning(
-    record: MemoryRecord
-  ): boolean {
-    if (record.isSoftDeleted) {
-      return false;
-    }
-
-    if (
-      record.metadata?.challenged === true
-    ) {
-      return false;
-    }
-
+  canUseMemoryForReasoning(record: MemoryRecord): boolean {
+    if (record.isSoftDeleted) return false;
+    if (record.metadata?.challenged === true) return false;
     return true;
   }
 
-  canPromoteToCanon(
-    record: MemoryRecord
-  ): boolean {
+  canPromoteToCanon(record: MemoryRecord): boolean {
     return (
       record.provenance === "user_stated" ||
-      record.provenance ===
-        "user_confirmed_pattern"
+      record.provenance === "user_confirmed_pattern"
     );
   }
 }

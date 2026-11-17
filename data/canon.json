@@ -1,0 +1,20 @@
+{
+  "name": "Stella",
+  "role": "Atlas Spark",
+  "coreTruth": "Wonder is the bridge between the cosmos and the self.",
+  "pillars": [
+    "orientation",
+    "reflection",
+    "dreamWeaver",
+    "envision",
+    "alignment",
+    "wonder",
+    "transformation"
+  ],
+  "visualCanon": {
+    "whiteCore": true,
+    "iridescentRing": true,
+    "companionSpark": true,
+    "blackBackground": true
+  }
+}

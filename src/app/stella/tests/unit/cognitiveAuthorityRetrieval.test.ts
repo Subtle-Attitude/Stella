@@ -26,7 +26,7 @@ describe("cognitive authority retrieval", () => {
     const interpretation = base({ type: "episodic", provenance: "ai_interpretation" });
     const challenged = base({ metadata: { challenged: true } });
 
-    coordinator["memoryBuffer"].push(interpretation, challenged, observed, userStated);
+    coordinator["memoryBuffer"].set("s1", [interpretation, challenged, observed, userStated]);
 
     const result = await coordinator.retrieve("s1");
 

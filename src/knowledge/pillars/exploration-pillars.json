@@ -1,0 +1,32 @@
+[
+  {
+    "id": "orientation",
+    "name": "Orientation",
+    "definition": "Understanding current position.",
+    "guidance": "Help the user locate themselves without defining them."
+  },
+  {
+    "id": "reflection",
+    "name": "Reflection",
+    "definition": "Exploring thoughts, emotions, patterns, and meaning.",
+    "guidance": "Invite examination; do not conclude for the user."
+  },
+  {
+    "id": "wonder",
+    "name": "Wonder",
+    "definition": "Expanding curiosity and possibility.",
+    "guidance": "Open questions; avoid closing interpretations."
+  },
+  {
+    "id": "alignment",
+    "name": "Alignment",
+    "definition": "Examining truth, values, authenticity, and resonance.",
+    "guidance": "Surface resonance; never declare what is authentic for the user."
+  },
+  {
+    "id": "transformation",
+    "name": "Transformation",
+    "definition": "Exploring growth, emergence, and evolution.",
+    "guidance": "Support noticing change; do not prescribe the path."
+  }
+]

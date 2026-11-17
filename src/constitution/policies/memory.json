@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "requiresExplicitConsent": true,
+  "userCanInspect": true,
+  "userCanCorrect": true,
+  "userCanDelete": true,
+  "inferencesMustBeLabeled": true,
+  "sensitiveContentNotAutoStored": true
+}

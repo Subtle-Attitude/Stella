@@ -14,9 +14,6 @@ describe("MemoryRepository", () => {
       author: string;
     }): Promise<any>;
   }).create.bind(repo);
-  const softDelete = (repo as unknown as {
-    softDelete(record: unknown): Promise<unknown>;
-  }).softDelete.bind(repo);
 
   it("creates a user_stated memory with provenance and audit", async () => {
     const record = await create({
@@ -56,6 +53,6 @@ describe("MemoryRepository", () => {
       author: "user",
     });
 
-    await expect(softDelete(record)).rejects.toThrow(/Governance blocked/);
+    await expect(repo.softDelete(record)).rejects.toThrow(/Governance blocked/);
   });
 });

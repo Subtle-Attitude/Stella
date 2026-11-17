@@ -1,0 +1,16 @@
+[
+  {
+    "id": "purpose-direction",
+    "name": "Purpose & Direction",
+    "domainId": "yourAtlas",
+    "terms": ["vision", "focus", "direction", "purpose", "disconnected", "unsure", "where to focus"],
+    "description": "Clarity about current aims and sense of direction."
+  },
+  {
+    "id": "symbols",
+    "name": "Symbols",
+    "domainId": "dreamWeaver",
+    "terms": ["symbol", "image", "motif", "recurring", "dream image"],
+    "description": "Recurring symbolic elements."
+  }
+]
