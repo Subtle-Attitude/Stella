@@ -2,35 +2,25 @@ import type {
   CognitiveEmphasis,
   ReflectionResult,
 } from "./types";
-
-import type {
-  StellaSelf,
-} from "./types";
-
-import {
-  ConstitutionalResponsePipeline,
-} from "./ConstitutionalResponsePipeline";
+import type { StellaSelf } from "./types";
+import { ConstitutionalResponsePipeline } from "./ConstitutionalResponsePipeline";
+import { generateStellaResponse } from "../llm";
 
 export class ResponseSynthesizer {
+  private readonly pipeline = new ConstitutionalResponsePipeline();
 
-  private readonly pipeline =
-    new ConstitutionalResponsePipeline();
-
-  synthesize(
+  async synthesize(
     input: string,
     reflection: ReflectionResult,
     self: StellaSelf,
     emphasis: CognitiveEmphasis,
-  ): string {
+  ): Promise<string> {
+    const baseResponse = await generateStellaResponse({
+      input,
+      reflection,
+      emphasis: { ...emphasis },
+    });
 
-    const baseResponse =
-      `I heard you say: "${input}". Responding reflectively.`;
-
-    return this.pipeline.process(
-      baseResponse,
-      input
-    );
-
+    return this.pipeline.process(baseResponse, input);
   }
-
 }

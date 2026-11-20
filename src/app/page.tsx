@@ -1,90 +1,125 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { actionStart, actionPause, actionResume, actionEnd, actionGetActive } from "@/runtime/actions"
-import type { StellaSession } from "@/runtime/types"
-import { StellaVisual } from "@/components/stella/stellavisual"
-import { orchestrate } from "@/cognitive/orchestrator"
+import { useState, useEffect } from "react";
+import {
+  actionStart,
+  actionPause,
+  actionResume,
+  actionEnd,
+  actionGetActive,
+} from "@/runtime/actions";
+import type { StellaSession } from "@/runtime/types";
+import { StellaVisual } from "@/components/stella/stellavisual";
+import { orchestrate } from "@/cognitive/orchestrator";
+
+const EXPERIENCES = [{ id: "yourAtlas", label: "Your Atlas" }];
 
 function stopSpeaking() {
   if (typeof window !== "undefined" && window.speechSynthesis) {
-    window.speechSynthesis.cancel()
+    window.speechSynthesis.cancel();
   }
 }
-
-const EXPERIENCES = [
-  { id: "yourAtlas", label: "Your Atlas" },
-  { id: "envision", label: "Envision" },
-  { id: "dreamWeaver", label: "Dream Weaver" },
-]
 
 type SpeechRecognizer = {
-  lang: string
-  interimResults: boolean
-  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null
-  start: () => void
-}
+  lang: string;
+  interimResults: boolean;
+  continuous: boolean;
+  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  start: () => void;
+};
 
-type SpeechRecognizerConstructor = new () => SpeechRecognizer
+type SpeechRecognizerConstructor = new () => SpeechRecognizer;
 
-function createSpeechRecognizer(onTranscript: (text: string) => void) {
+function createSpeechRecognizer(
+  onTranscript: (text: string) => void,
+  onEnd: () => void,
+  onError: (err: string) => void
+) {
   const browser = window as Window & {
-    SpeechRecognition?: SpeechRecognizerConstructor
-    webkitSpeechRecognition?: SpeechRecognizerConstructor
-  }
-  const Recognition = browser.SpeechRecognition ?? browser.webkitSpeechRecognition
-  if (!Recognition) return null
+    SpeechRecognition?: SpeechRecognizerConstructor;
+    webkitSpeechRecognition?: SpeechRecognizerConstructor;
+  };
+  const Recognition = browser.SpeechRecognition ?? browser.webkitSpeechRecognition;
+  if (!Recognition) return null;
 
-  const recognizer = new Recognition()
-  recognizer.lang = "en-US"
-  recognizer.interimResults = false
-  recognizer.onresult = (event) => onTranscript(event.results[0][0].transcript)
-  return recognizer
+  const recognizer = new Recognition();
+  recognizer.lang = "en-US";
+  recognizer.interimResults = false;
+  recognizer.continuous = false;
+
+  recognizer.onresult = (event) => {
+    const text = event.results[0][0].transcript;
+    onTranscript(text);
+  };
+
+  recognizer.onend = () => onEnd();
+  recognizer.onerror = (event) => onError(event.error || "recognition error");
+
+  return recognizer;
 }
 
 function formatDuration(startedAt: string) {
-  const mins = Math.floor((Date.now() - new Date(startedAt).getTime()) / 60000)
-  return `${mins}m`
+  const mins = Math.floor((Date.now() - new Date(startedAt).getTime()) / 60000);
+  return `${mins}m`;
 }
 
 export default function Dashboard() {
-  const [active, setActive] = useState<StellaSession | null>(null)
-  const [experience, setExperience] = useState("yourAtlas")
-  const [listening, setListening] = useState(false)
-  const [lastTranscript, setLastTranscript] = useState("")
+  const [active, setActive] = useState<StellaSession | null>(null);
+  const [experience, setExperience] = useState("yourAtlas");
+  const [listening, setListening] = useState(false);
+  const [lastTranscript, setLastTranscript] = useState("");
 
   useEffect(() => {
-    actionGetActive().then(setActive)
-  }, [])
+    actionGetActive().then(setActive);
+  }, []);
 
-  const isConversation = active?.type === "conversation"
-  const isActive = isConversation && active?.state === "active"
-  const isPaused = isConversation && active?.state === "paused"
+  const isConversation = active?.type === "conversation";
+  const isActive = isConversation && active?.state === "active";
+  const isPaused = isConversation && active?.state === "paused";
 
   function startVoiceCapture() {
-    const rec = createSpeechRecognizer(async (text) => {
-      setListening(false)
-      setLastTranscript(text)
+    const rec = createSpeechRecognizer(
+      async (text) => {
+        setLastTranscript(text);
+        console.log("[voice] heard:", text);
 
-      const result = await orchestrate({
-        text,
-        sessionId: active?.id || "temp",
-        source: "voice",
-      })
+        try {
+          const result = await orchestrate({
+            text,
+            sessionId: active?.id || "default",
+            source: "voice",
+          });
 
-      if (result.success && result.decision !== "BLOCK") {
-        stopSpeaking()
-        const u = new SpeechSynthesisUtterance(result.response)
-        u.rate = 0.95
-        window.speechSynthesis.speak(u)
+          console.log("[voice] orchestrator result:", result);
+
+          if (result.response) {
+            stopSpeaking();
+            const u = new SpeechSynthesisUtterance(result.response);
+            u.rate = 0.95;
+            window.speechSynthesis.speak(u);
+          } else {
+            setLastTranscript((prev) => `${prev} · (no response)`);
+          }
+        } catch (err) {
+          console.error("[voice] orchestrate failed:", err);
+          setLastTranscript("Error talking to Stella");
+        }
+      },
+      () => setListening(false),
+      (err) => {
+        console.error("[voice] recognition error:", err);
+        setListening(false);
+        setLastTranscript(`Mic error: ${err}`);
       }
-    })
+    );
 
     if (rec) {
-      setListening(true)
-      rec.start()
+      setListening(true);
+      rec.start();
     } else {
-      setLastTranscript("Speech recognition not available in this browser")
+      setLastTranscript("Speech recognition not available in this browser");
     }
   }
 
@@ -118,10 +153,18 @@ export default function Dashboard() {
           System
         </div>
 
-        <a href="/journal" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">Journal</a>
-        <a href="/history" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">Journey</a>
-        <a href="/memory" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">Memory</a>
-        <a href="/voice" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">Voice</a>
+        <a href="/journal" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">
+          Journal
+        </a>
+        <a href="/history" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">
+          Journey
+        </a>
+        <a href="/memory" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">
+          Memory
+        </a>
+        <a href="/voice" className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-300">
+          Voice
+        </a>
       </aside>
 
       <div className="flex-1 flex flex-col items-center">
@@ -132,7 +175,7 @@ export default function Dashboard() {
               : "No active session"}
           </div>
           <div>
-            Experience: {EXPERIENCES.find(e => e.id === experience)?.label}
+            Experience: {EXPERIENCES.find((e) => e.id === experience)?.label}
             {listening && " · Listening"}
           </div>
         </div>
@@ -145,11 +188,16 @@ export default function Dashboard() {
           {!isActive && !isPaused && (
             <button
               onClick={async () => {
-                await actionStart("conversation")
-                setActive(await actionGetActive())
+                await actionStart("conversation");
+                setActive(await actionGetActive());
               }}
             >
-              <img src="/assets/StellaIMG/stella-communication.png" alt="Begin Conversation" width={56} height={56} />
+              <img
+                src="/assets/StellaIMG/stella-communication.png"
+                alt="Begin Conversation"
+                width={56}
+                height={56}
+              />
             </button>
           )}
 
@@ -157,17 +205,17 @@ export default function Dashboard() {
             <>
               <button
                 onClick={async () => {
-                  await actionPause(active!.id)
-                  setActive(await actionGetActive())
+                  await actionPause(active!.id);
+                  setActive(await actionGetActive());
                 }}
               >
                 <img src="/assets/StellaIMG/pause.png" alt="Pause" width={48} height={48} />
               </button>
               <button
                 onClick={async () => {
-                  await actionEnd(active!.id)
-                  setActive(await actionGetActive())
-                  stopSpeaking()
+                  await actionEnd(active!.id);
+                  setActive(await actionGetActive());
+                  stopSpeaking();
                 }}
               >
                 <img src="/assets/StellaIMG/stop.png" alt="Stop" width={48} height={48} />
@@ -181,11 +229,16 @@ export default function Dashboard() {
           {isPaused && (
             <button
               onClick={async () => {
-                await actionResume(active!.id)
-                setActive(await actionGetActive())
+                await actionResume(active!.id);
+                setActive(await actionGetActive());
               }}
             >
-              <img src="/assets/StellaIMG/stella-communication.png" alt="Resume Conversation" width={56} height={56} />
+              <img
+                src="/assets/StellaIMG/stella-communication.png"
+                alt="Resume Conversation"
+                width={56}
+                height={56}
+              />
             </button>
           )}
         </div>
@@ -204,5 +257,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }

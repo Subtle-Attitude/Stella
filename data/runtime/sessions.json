@@ -568,5 +568,165 @@
     "exploration": {},
     "governanceState": "none",
     "endedAt": "2026-11-13T19:07:07.940Z"
+  },
+  {
+    "id": "81a4bef5-bef3-4c69-8c09-3fcc76c0853c",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T20:41:22.104Z",
+    "lastActiveAt": "2026-11-20T21:06:45.345Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:06:48.923Z"
+  },
+  {
+    "id": "7ae6ed82-80cc-4e23-87ca-2031bdd2742d",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:06:52.413Z",
+    "lastActiveAt": "2026-11-20T21:06:52.413Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:07:00.984Z"
+  },
+  {
+    "id": "12bce539-444d-445c-87e8-2a103a64cd66",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:08:15.427Z",
+    "lastActiveAt": "2026-11-20T21:08:15.427Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:35:30.260Z"
+  },
+  {
+    "id": "6753a721-8816-4621-85f9-bfd920e6c442",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:35:45.520Z",
+    "lastActiveAt": "2026-11-20T21:35:45.520Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:35:48.242Z"
+  },
+  {
+    "id": "6e767b6c-dd46-4b24-a97e-a58d0e7905fd",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:36:54.551Z",
+    "lastActiveAt": "2026-11-20T21:36:54.551Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:37:10.474Z"
+  },
+  {
+    "id": "98458d1d-1193-41d2-8ea5-28a2d320f9b8",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:52:26.406Z",
+    "lastActiveAt": "2026-11-20T21:52:26.406Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:53:11.034Z"
+  },
+  {
+    "id": "58dc3013-3c27-4a06-a3f0-cd1da77bc371",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:53:48.001Z",
+    "lastActiveAt": "2026-11-20T21:53:48.001Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:53:54.798Z"
+  },
+  {
+    "id": "bb5d8841-df4c-4fa9-9487-3f74745189fd",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:57:05.394Z",
+    "lastActiveAt": "2026-11-20T21:57:05.394Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T21:57:16.701Z"
+  },
+  {
+    "id": "f049658b-6a3e-4100-8bb4-57a76e6bd6b7",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T21:58:12.540Z",
+    "lastActiveAt": "2026-11-20T21:58:12.540Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:06:17.589Z"
+  },
+  {
+    "id": "d3f2ea33-a456-4206-a49e-e2493535823a",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:11:05.433Z",
+    "lastActiveAt": "2026-11-20T22:11:05.433Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:11:14.376Z"
+  },
+  {
+    "id": "b6723a98-8f62-454d-90e8-fbfd3186f08d",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:16:21.767Z",
+    "lastActiveAt": "2026-11-20T22:16:21.767Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:16:30.381Z"
+  },
+  {
+    "id": "0baf5968-8d0a-4358-bb0f-1ef38f3e62e8",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:27:46.707Z",
+    "lastActiveAt": "2026-11-20T22:27:46.707Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:29:09.153Z"
+  },
+  {
+    "id": "00ed463b-3c75-41e2-91d9-05023908cfe2",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:30:06.928Z",
+    "lastActiveAt": "2026-11-20T22:30:06.928Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:30:09.226Z"
+  },
+  {
+    "id": "4854789e-9308-4ce7-9e3a-2e74b9afe946",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:30:23.160Z",
+    "lastActiveAt": "2026-11-20T22:30:23.160Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:30:24.683Z"
+  },
+  {
+    "id": "854e6711-6ed4-4db7-9177-5ee450bcb9fd",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T22:43:11.794Z",
+    "lastActiveAt": "2026-11-20T22:43:11.794Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T22:43:54.794Z"
+  },
+  {
+    "id": "ab031651-1096-4716-8642-2cbbae7ce6b3",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T23:04:34.207Z",
+    "lastActiveAt": "2026-11-20T23:04:34.207Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T23:04:49.946Z"
   }
 ]

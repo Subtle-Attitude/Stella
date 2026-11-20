@@ -1,11 +1,21 @@
-import { randomUUID } from "crypto";
-
+// src/stella/repositories/MemoryRepository.ts
 import type { MemoryRecord } from "../../app/stella/contracts/MemoryRecord";
 import type { GovernanceContext } from "../../app/stella/contracts/GovernanceContext";
 
 import { GovernanceEngine } from "../governance/GovernanceEngine";
 import { ProvenanceEngine } from "../provenance/ProvenanceEngine";
 import { AuditService } from "../services/AuditService";
+
+function safeUUID(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 
 export class MemoryRepository {
   private readonly store = new Map<string, MemoryRecord>();
@@ -40,7 +50,7 @@ export class MemoryRepository {
   ): Promise<MemoryRecord> {
     const record: MemoryRecord = {
       ...input,
-      id: randomUUID(),
+      id: safeUUID(),
       provenanceChain: [],
       createdAt: new Date(),
       lastModifiedAt: new Date(),

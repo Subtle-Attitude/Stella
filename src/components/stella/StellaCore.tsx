@@ -124,8 +124,8 @@ export default function Dashboard() {
       {/* Desktop sidebar — hidden on mobile */}
       <aside className="hidden lg:flex w-64 flex-col border-r border-zinc-800 p-6">
         <div className="mb-8">
-          <h1 className="text-2xl font-light">Stella</h1>
-          <p className="text-zinc-500 text-sm">Atlas Spark</p>
+          <h1 className="text-2xl font-light">Stella -OS</h1>
+          <p className="text-zinc-500 text-sm">Your Atlas Spark</p>
         </div>
         <nav className="space-y-2 text-sm text-zinc-400">
           <div>Your Atlas</div>

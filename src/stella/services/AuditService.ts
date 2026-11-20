@@ -1,7 +1,18 @@
 // src/stella/services/AuditService.ts
 
-import { createHash, randomUUID } from "crypto";
+import { createHash } from "crypto";
 import type { AuditRecord } from "../../app/stella/contracts/Audit";
+
+function safeUUID(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 
 export interface CreateAuditRecordInput {
   userId: string;
@@ -27,7 +38,7 @@ export class AuditService {
   ): AuditRecord {
     const timestamp = new Date();
 
-    const id = randomUUID();
+    const id = safeUUID();
 
     const payload = JSON.stringify({
       id,
