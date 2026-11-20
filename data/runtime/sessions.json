@@ -728,5 +728,25 @@
     "exploration": {},
     "governanceState": "none",
     "endedAt": "2026-11-20T23:04:49.946Z"
+  },
+  {
+    "id": "0880775b-bab5-498c-882c-601e1eef6e1f",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T23:11:02.692Z",
+    "lastActiveAt": "2026-11-20T23:11:02.692Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T23:11:16.858Z"
+  },
+  {
+    "id": "2e277a62-5e57-4a47-9a56-b5c23d4c68f4",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T23:11:20.860Z",
+    "lastActiveAt": "2026-11-20T23:11:20.860Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T23:11:21.847Z"
   }
 ]
