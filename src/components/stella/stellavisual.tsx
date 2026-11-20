@@ -1,21 +1,13 @@
 "use client";
 
-import { StellaCore } from "@/components/stella/StellaCore";
-import type { StellaState } from "@/types/stella";
+import StellaCore from "./StellaCore";
 
-interface StellaVisualProps {
-  mode?: StellaState;
-}
-
-export function StellaVisual({ mode = "orientation" }: StellaVisualProps) {
+export function StellaVisual() {
   return (
-    <div className="flex flex-col items-center">
-      <StellaCore
-        mode={mode}
-        size={380}
-        intensity={1}
-        showSpark={false}
-      />
+    <div className="relative w-full h-full flex items-center justify-center">
+      <div className="scale-75 lg:scale-100 transition-transform">
+        <StellaCore />
+      </div>
     </div>
   );
 }

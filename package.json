@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:unit": "vitest run src/app/stella/tests/unit/ --reporter=tap"
+    "test:unit": "vitest run src/app/stella/tests/unit/ --reporter=tap",
+    "pipeline:audit": "tsx src/stella/scripts/pipeline-demo.ts",
+    "release:audit": "npm run test:unit && npm run pipeline:audit"
   },
   "dependencies": {
     "framer-motion": "^14.9.0",
@@ -25,6 +27,7 @@
     "eslint-config-next": "16.4.5",
     "supabase": "^3.1.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^4.1.12"
   }
