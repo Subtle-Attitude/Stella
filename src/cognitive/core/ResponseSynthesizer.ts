@@ -2,35 +2,42 @@
 
 import type {
   CognitiveEmphasis,
-  ReflectionResult,
+  ReflectionResult
 } from "./types";
 
 import type {
-  StellaSelf,
+  StellaSelf
 } from "./types";
 
 import { IdentityExpressionEngine }
   from "./IdentityExpressionEngine";
 
+import { MeaningExpressionEngine }
+  from "./MeaningExpressionEngine";
+
 import {
-  PresenceExpressionEngine,
+  PresenceExpressionEngine
 } from "../../stella/presence/PresenceExpressionEngine";
 
 import {
-  ResponsePacingEngine,
+  ResponsePacingEngine
 } from "../../stella/attunement/ResponsePacingEngine";
 
 import {
-  RelationalAttunementEngineV2,
+  RelationalAttunementEngineV2
 } from "../../stella/attunement/RelationalAttunementEngineV2";
 
 import {
-  ContextDetectionEngine,
+  ContextDetectionEngine
 } from "../../stella/attunement/ContextDetectionEngine";
 
 export class ResponseSynthesizer {
+
   private readonly identity =
     new IdentityExpressionEngine();
+
+  private readonly meaning =
+    new MeaningExpressionEngine();
 
   private readonly presence =
     new PresenceExpressionEngine();
@@ -51,30 +58,34 @@ export class ResponseSynthesizer {
     emphasis: CognitiveEmphasis
   ): string {
 
-    const shouldReflect =
-      reflection.shouldReflect ?? true;
-
-    const tone =
-      shouldReflect
-        ? "Responding reflectively."
-        : "Responding clearly.";
-
     let response =
-      `I heard you say: "${input}". ${tone}`;
+      `I heard you say: "${input}". Responding reflectively.`;
 
     response =
-      this.identity.express(response);
+      this.identity.express(
+        response
+      );
 
     response =
-      this.presence.express(response);
+      this.meaning.express(
+        response,
+        input
+      );
 
-    const detectedContext =
-      this.context.detect(input);
+    response =
+      this.presence.express(
+        response
+      );
+
+    const context =
+      this.context.detect(
+        input
+      );
 
     response =
       this.pacing.pace(
         response,
-        detectedContext
+        context
       );
 
     response =
@@ -85,4 +96,5 @@ export class ResponseSynthesizer {
 
     return response;
   }
+
 }
