@@ -748,5 +748,15 @@
     "exploration": {},
     "governanceState": "none",
     "endedAt": "2026-11-20T23:11:21.847Z"
+  },
+  {
+    "id": "339436f9-4b66-488c-b323-25419c963a2f",
+    "type": "conversation",
+    "state": "ended",
+    "startedAt": "2026-11-20T23:14:58.995Z",
+    "lastActiveAt": "2026-11-20T23:14:58.995Z",
+    "exploration": {},
+    "governanceState": "none",
+    "endedAt": "2026-11-20T23:15:21.898Z"
   }
 ]
