@@ -1,100 +1,36 @@
-// src/cognitive/core/ResponseSynthesizer.ts
-
 import type {
   CognitiveEmphasis,
-  ReflectionResult
+  ReflectionResult,
 } from "./types";
 
 import type {
-  StellaSelf
+  StellaSelf,
 } from "./types";
 
-import { IdentityExpressionEngine }
-  from "./IdentityExpressionEngine";
-
-import { MeaningExpressionEngine }
-  from "./MeaningExpressionEngine";
-
 import {
-  PresenceExpressionEngine
-} from "../../stella/presence/PresenceExpressionEngine";
-
-import {
-  ResponsePacingEngine
-} from "../../stella/attunement/ResponsePacingEngine";
-
-import {
-  RelationalAttunementEngineV2
-} from "../../stella/attunement/RelationalAttunementEngineV2";
-
-import {
-  ContextDetectionEngine
-} from "../../stella/attunement/ContextDetectionEngine";
+  ConstitutionalResponsePipeline,
+} from "./ConstitutionalResponsePipeline";
 
 export class ResponseSynthesizer {
 
-  private readonly identity =
-    new IdentityExpressionEngine();
-
-  private readonly meaning =
-    new MeaningExpressionEngine();
-
-  private readonly presence =
-    new PresenceExpressionEngine();
-
-  private readonly pacing =
-    new ResponsePacingEngine();
-
-  private readonly attunement =
-    new RelationalAttunementEngineV2();
-
-  private readonly context =
-    new ContextDetectionEngine();
+  private readonly pipeline =
+    new ConstitutionalResponsePipeline();
 
   synthesize(
     input: string,
     reflection: ReflectionResult,
     self: StellaSelf,
-    emphasis: CognitiveEmphasis
+    emphasis: CognitiveEmphasis,
   ): string {
 
-    let response =
+    const baseResponse =
       `I heard you say: "${input}". Responding reflectively.`;
 
-    response =
-      this.identity.express(
-        response
-      );
+    return this.pipeline.process(
+      baseResponse,
+      input
+    );
 
-    response =
-      this.meaning.express(
-        response,
-        input
-      );
-
-    response =
-      this.presence.express(
-        response
-      );
-
-    const context =
-      this.context.detect(
-        input
-      );
-
-    response =
-      this.pacing.pace(
-        response,
-        context
-      );
-
-    response =
-      this.attunement.attune(
-        response,
-        input
-      );
-
-    return response;
   }
 
 }
